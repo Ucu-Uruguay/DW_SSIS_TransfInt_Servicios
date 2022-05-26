@@ -1,0 +1,1348 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/18/2022 2:54:55 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PROD-UCUDBS10"
+  DTS:CreatorName="UCUADM\SSLVPN-SOPORTEQK"
+  DTS:DTSID="{E2861035-5940-431D-83AD-4B6DC31B869A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.132"
+  DTS:LocaleID="3082"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{B17A7492-D399-4A8D-AD64-D5F49F99E1FC}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[10.245.0.14\powerbi.DW_UCU]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{6A521E4A-8EA0-4DEB-A8E2-30E8B0E9B8DB}"
+      DTS:ObjectName="10.245.0.14\powerbi.DW_UCU">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=10.245.0.14\powerbi;Initial Catalog=DW_UCU;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Administrador de conexiones con Excel]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{5772B7CD-06CE-45ED-87C8-F241B61B9568}"
+      DTS:ObjectName="Administrador de conexiones con Excel">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\UCU_BI\01-Produccion\07 - Transferencias Internas\Transferencias de Servicios.xlsx;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Administrador de conexiones con Excel 1]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{3B52C734-0FD8-4A20-B096-D69AD4182939}"
+      DTS:ObjectName="Administrador de conexiones con Excel 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\UCU_BI\01-Produccion\07 - Transferencias Internas\Transferencias de Servicios.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Borrar datos de Transferencias de servicios"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{70F96481-8000-473B-9552-C46250DFF230}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borrar datos de Transferencias de servicios"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6A521E4A-8EA0-4DEB-A8E2-30E8B0E9B8DB}"
+          SQLTask:SqlStatementSource="delete from FT_TRANSFERENCIAS WHERE FUENTE='SERVICIOS';" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Cargar datos"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tarea Flujo de datos"
+      DTS:DTSID="{2EC12257-8140-4044-A25E-C551ED7CC673}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cargar datos"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Cargar datos\Columna derivada"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Columna derivada;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;0"
+              description="Crea nuevos valores de columna aplicando expresiones a las columnas de entrada de la transformación. Crea nuevas columnas o sobrescribe las columnas existentes. Por ejemplo, se concatenan los valores de las columnas 'nombre' y 'apellidos' para crear una columna 'nombre completo'."
+              name="Columna derivada"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Cargar datos\Columna derivada.Inputs[Entrada de columna derivada]"
+                  description="Entrada en la transformación Columna derivada"
+                  name="Entrada de columna derivada">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Cargar datos\Columna derivada.Outputs[Salida de columna derivada]"
+                  description="Salida predeterminada de la transformación Columna derivada"
+                  exclusionGroup="1"
+                  name="Salida de columna derivada"
+                  synchronousInputId="Package\Cargar datos\Columna derivada.Inputs[Entrada de columna derivada]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cargar datos\Columna derivada.Outputs[Salida de columna derivada].Columns[fuente]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Cálculo"
+                      errorRowDisposition="FailComponent"
+                      length="9"
+                      lineageId="Package\Cargar datos\Columna derivada.Outputs[Salida de columna derivada].Columns[fuente]"
+                      name="fuente"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expresión de columna derivada"
+                          name="Expression">"SERVICIOS"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expresión descriptiva de columna derivada"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"SERVICIOS"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Cargar datos\Columna derivada.Outputs[Salida de error de columna derivada]"
+                  description="Salida de error de la transformación Columna derivada"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Salida de error de columna derivada"
+                  synchronousInputId="Package\Cargar datos\Columna derivada.Inputs[Entrada de columna derivada]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cargar datos\Columna derivada.Outputs[Salida de error de columna derivada].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Cargar datos\Columna derivada.Outputs[Salida de error de columna derivada].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Columna derivada.Outputs[Salida de error de columna derivada].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Cargar datos\Columna derivada.Outputs[Salida de error de columna derivada].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Cargar datos\Conversión de datos"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Conversión de datos;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;0"
+              description="Conversión de datos"
+              name="Conversión de datos"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Cargar datos\Conversión de datos.Inputs[Entrada de conversión de datos]"
+                  name="Entrada de conversión de datos">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Inputs[Entrada de conversión de datos].Columns[Tipo Horas]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Tipo Horas"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Tipo Horas]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Inputs[Entrada de conversión de datos].Columns[Tipo Transacción]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Tipo Transacción"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Tipo Transacción]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Inputs[Entrada de conversión de datos].Columns[fuente]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="fuente"
+                      lineageId="Package\Cargar datos\Columna derivada.Outputs[Salida de columna derivada].Columns[fuente]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Inputs[Entrada de conversión de datos].Columns[Unidad Origen]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Unidad Origen"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Unidad Origen]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Inputs[Entrada de conversión de datos].Columns[Unidad Destino]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Unidad Destino"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Unidad Destino]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos]"
+                  exclusionGroup="1"
+                  name="Salida de conversión de datos"
+                  synchronousInputId="Package\Cargar datos\Conversión de datos.Inputs[Entrada de conversión de datos]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Tipo Horas]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Tipo Horas]"
+                      name="Copia de Tipo Horas"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica la columna de entrada usada como origen de datos para la conversión."
+                          name="SourceInputColumnLineageID">#{Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Tipo Horas]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica si la columna usa las rutinas de análisis más rápidas independientes de la configuración regional."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Tipo Transacción]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Tipo Transacción]"
+                      name="Copia de Tipo Transacción"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica la columna de entrada usada como origen de datos para la conversión."
+                          name="SourceInputColumnLineageID">#{Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Tipo Transacción]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica si la columna usa las rutinas de análisis más rápidas independientes de la configuración regional."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de fuente]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de fuente]"
+                      name="Copia de fuente"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica la columna de entrada usada como origen de datos para la conversión."
+                          name="SourceInputColumnLineageID">#{Package\Cargar datos\Columna derivada.Outputs[Salida de columna derivada].Columns[fuente]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica si la columna usa las rutinas de análisis más rápidas independientes de la configuración regional."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Unidad Origen]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Unidad Origen]"
+                      name="Copia de Unidad Origen"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica la columna de entrada usada como origen de datos para la conversión."
+                          name="SourceInputColumnLineageID">#{Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Unidad Origen]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica si la columna usa las rutinas de análisis más rápidas independientes de la configuración regional."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Unidad Destino]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Unidad Destino]"
+                      name="Copia de Unidad Destino"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica la columna de entrada usada como origen de datos para la conversión."
+                          name="SourceInputColumnLineageID">#{Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Unidad Destino]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica si la columna usa las rutinas de análisis más rápidas independientes de la configuración regional."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Cargar datos\Conversión de datos.Outputs[Salida de error de conversión de datos]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Salida de error de conversión de datos"
+                  synchronousInputId="Package\Cargar datos\Conversión de datos.Inputs[Entrada de conversión de datos]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Outputs[Salida de error de conversión de datos].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de error de conversión de datos].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Conversión de datos.Outputs[Salida de error de conversión de datos].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de error de conversión de datos].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Cargar datos\Datos Transferencias de servicio"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Origen de Excel;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;1"
+              description="Origen de Excel"
+              name="Datos Transferencias de servicio"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Número de segundos antes de que se agote el tiempo de espera de un comando. Un valor de 0 indica un tiempo de espera infinito."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica el nombre del objeto de base de datos usado para abrir un conjunto de filas."
+                  name="OpenRowset">Datos$</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica la variable que contiene el nombre del objeto de base de datos usado para abrir un conjunto de filas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Comando SQL para ejecutar."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="Variable que contiene el comando SQL para ejecutar."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica el modo utilizado para obtener acceso a la base de datos."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="La asignación de parámetros del comando SQL a variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cargar datos\Datos Transferencias de servicio.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Administrador de conexiones con Excel 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[Administrador de conexiones con Excel 1]"
+                  description="La conexión de tiempo de ejecución OLE DB usada para obtener acceso a la base de datos."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel]"
+                  name="Salida de origen de Excel">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Año]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Año]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Año]"
+                      name="Año"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Mes]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Mes]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Mes]"
+                      name="Mes"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Tipo Horas]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Tipo Horas]"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Tipo Horas]"
+                      name="Tipo Horas"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Unidad Origen]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Unidad Origen]"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Unidad Origen]"
+                      name="Unidad Origen"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Unidad Destino]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Unidad Destino]"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Unidad Destino]"
+                      name="Unidad Destino"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Tipo Transacción]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Tipo Transacción]"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Tipo Transacción]"
+                      name="Tipo Transacción"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[CC Origen]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[CC Origen]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[CC Origen]"
+                      name="CC Origen"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[CC Destino]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[CC Destino]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[CC Destino]"
+                      name="CC Destino"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Rubro Venta]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Rubro Venta]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Rubro Venta]"
+                      name="Rubro Venta"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Rubro Magix]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Rubro Magix]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Rubro Magix]"
+                      name="Rubro Magix"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Total Alumos]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Total Alumos]"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Total Alumos]"
+                      name="Total Alumos"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Horas de Uso]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Horas de Uso]"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Horas de Uso]"
+                      name="Horas de Uso"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Valor Hora de Uso]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Valor Hora de Uso]"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Valor Hora de Uso]"
+                      name="Valor Hora de Uso"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Valor Hora Total ($)]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Valor Hora Total ($)]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Valor Hora Total ($)]"
+                      name="Valor Hora Total ($)"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Valor Hora Total (USD)]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Valor Hora Total (USD)]"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Valor Hora Total (USD)]"
+                      name="Valor Hora Total (USD)"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Año]"
+                      dataType="r8"
+                      name="Año" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Mes]"
+                      dataType="r8"
+                      name="Mes" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Tipo Horas]"
+                      dataType="wstr"
+                      length="255"
+                      name="Tipo Horas" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Unidad Origen]"
+                      dataType="wstr"
+                      length="255"
+                      name="Unidad Origen" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Unidad Destino]"
+                      dataType="wstr"
+                      length="255"
+                      name="Unidad Destino" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Tipo Transacción]"
+                      dataType="wstr"
+                      length="255"
+                      name="Tipo Transacción" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[CC Origen]"
+                      dataType="r8"
+                      name="CC Origen" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[CC Destino]"
+                      dataType="r8"
+                      name="CC Destino" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Rubro Venta]"
+                      dataType="r8"
+                      name="Rubro Venta" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Rubro Magix]"
+                      dataType="r8"
+                      name="Rubro Magix" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Total Alumos]"
+                      dataType="wstr"
+                      length="255"
+                      name="Total Alumos" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Horas de Uso]"
+                      dataType="wstr"
+                      length="255"
+                      name="Horas de Uso" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Valor Hora de Uso]"
+                      dataType="wstr"
+                      length="255"
+                      name="Valor Hora de Uso" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Valor Hora Total ($)]"
+                      dataType="r8"
+                      name="Valor Hora Total ($)" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].ExternalColumns[Valor Hora Total (USD)]"
+                      dataType="wstr"
+                      length="255"
+                      name="Valor Hora Total (USD)" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel]"
+                  isErrorOut="true"
+                  name="Salida de error de origen de Excel">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Año]"
+                      dataType="r8"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Año]"
+                      name="Año" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Mes]"
+                      dataType="r8"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Mes]"
+                      name="Mes" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Tipo Horas]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Tipo Horas]"
+                      name="Tipo Horas" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Unidad Origen]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Unidad Origen]"
+                      name="Unidad Origen" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Unidad Destino]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Unidad Destino]"
+                      name="Unidad Destino" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Tipo Transacción]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Tipo Transacción]"
+                      name="Tipo Transacción" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[CC Origen]"
+                      dataType="r8"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[CC Origen]"
+                      name="CC Origen" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[CC Destino]"
+                      dataType="r8"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[CC Destino]"
+                      name="CC Destino" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Rubro Venta]"
+                      dataType="r8"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Rubro Venta]"
+                      name="Rubro Venta" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Rubro Magix]"
+                      dataType="r8"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Rubro Magix]"
+                      name="Rubro Magix" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Total Alumos]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Total Alumos]"
+                      name="Total Alumos" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Horas de Uso]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Horas de Uso]"
+                      name="Horas de Uso" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Valor Hora de Uso]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Valor Hora de Uso]"
+                      name="Valor Hora de Uso" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Valor Hora Total ($)]"
+                      dataType="r8"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Valor Hora Total ($)]"
+                      name="Valor Hora Total ($)" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Valor Hora Total (USD)]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[Valor Hora Total (USD)]"
+                      name="Valor Hora Total (USD)" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de error de origen de Excel].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Cargar datos\Destino de OLE DB"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destino de OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;4"
+              description="Destino de OLE DB"
+              name="Destino de OLE DB"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Número de segundos antes de que se agote el tiempo de espera de un comando. Un valor de 0 indica un tiempo de espera infinito."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica el nombre del objeto de base de datos usado para abrir un conjunto de filas."
+                  name="OpenRowset">[dbo].[FT_TRANSFERENCIAS]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica la variable que contiene el nombre del objeto de base de datos usado para abrir un conjunto de filas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Comando SQL para ejecutar."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica la página de códigos de columna para utilizar cuando la información de página de códigos no está disponible en el origen de datos."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Fuerza el uso del valor de la propiedad DefaultCodePage al describir datos de caracteres."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica el modo utilizado para obtener acceso a la base de datos."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica si los valores proporcionados para columnas de identidad se van a copiar al destino. Si es False, los valores de las columnas de identidad se generan automáticamente en el destino. Solo se aplica si está activada la carga rápida."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica si las columnas que contienen NULL tendrán NULL insertado en el destino. Si es False, las columnas que contienen NULL tendrán sus valores predeterminados insertados en el destino. Solo se aplica si está activada la carga rápida."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica opciones para usar con la carga rápida. Solo se aplica si está activada la carga rápida."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica cuándo se emiten confirmaciones durante la inserción de datos. El valor 0 especifica que se emitirá una confirmación al final de la inserción de datos. Solo se aplica si está activada la carga rápida."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cargar datos\Destino de OLE DB.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[10.245.0.14\powerbi.DW_UCU]"
+                  connectionManagerRefId="Package.ConnectionManagers[10.245.0.14\powerbi.DW_UCU]"
+                  description="La conexión de tiempo de ejecución OLE DB usada para obtener acceso a la base de datos."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB]"
+                  errorOrTruncationOperation="Insertar"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de destino de OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Año]"
+                      cachedDataType="r8"
+                      cachedName="Año"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[Año]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Año]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Mes]"
+                      cachedDataType="r8"
+                      cachedName="Mes"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[Mes]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Mes]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[CC Origen]"
+                      cachedDataType="r8"
+                      cachedName="CC Origen"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[CC_ORIGEN]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[CC Origen]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[CC Destino]"
+                      cachedDataType="r8"
+                      cachedName="CC Destino"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[CC_DESTINO]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[CC Destino]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Rubro Venta]"
+                      cachedDataType="r8"
+                      cachedName="Rubro Venta"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[RUBRO_VENTA]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Rubro Venta]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Rubro Magix]"
+                      cachedDataType="r8"
+                      cachedName="Rubro Magix"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[RUBRO_COMPRA]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Rubro Magix]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Total Alumos]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Total Alumos"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[Total_Alumos]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Total Alumos]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Horas de Uso]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Horas de Uso"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[HS_MENSUALES_DESIGNADAS]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Horas de Uso]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Valor Hora Total ($)]"
+                      cachedDataType="r8"
+                      cachedName="Valor Hora Total ($)"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[ValorHoraLiq]"
+                      lineageId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel].Columns[Valor Hora Total ($)]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Copia de Tipo Horas]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copia de Tipo Horas"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[TIPO_HORA]"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Tipo Horas]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Copia de Tipo Transacción]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copia de Tipo Transacción"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[TIPO_TRANSACCION]"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Tipo Transacción]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Copia de fuente]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copia de fuente"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[fuente]"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de fuente]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Copia de Unidad Origen]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copia de Unidad Origen"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[UNIDAD_ORIGEN_ID]"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Unidad Origen]" />
+                    <inputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[Copia de Unidad Destino]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copia de Unidad Destino"
+                      externalMetadataColumnId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[UNIDAD_DESTINO_ID]"
+                      lineageId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos].Columns[Copia de Unidad Destino]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[DOCUMENTO_ID]"
+                      dataType="wstr"
+                      length="50"
+                      name="DOCUMENTO_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[FEC_INICIO_DESG]"
+                      dataType="dbTimeStamp"
+                      name="FEC_INICIO_DESG" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[FEC_FIN_DESG]"
+                      dataType="dbTimeStamp"
+                      name="FEC_FIN_DESG" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[ValorHoraLiq]"
+                      dataType="numeric"
+                      name="ValorHoraLiq"
+                      precision="19"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[ValorHoraCargo]"
+                      dataType="numeric"
+                      name="ValorHoraCargo"
+                      precision="19"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[TIPO_HORA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="TIPO_HORA" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[CC_ORIGEN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="CC_ORIGEN" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[Año]"
+                      dataType="i4"
+                      name="Año" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[Mes]"
+                      dataType="i4"
+                      name="Mes" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[CC_DESTINO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="CC_DESTINO" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[CARGO_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="60"
+                      name="CARGO_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[PORC_HORAS]"
+                      dataType="numeric"
+                      name="PORC_HORAS"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[ValorHoraCargoLau]"
+                      dataType="numeric"
+                      name="ValorHoraCargoLau"
+                      precision="19"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[HS_MENSUALES_DESIGNADAS]"
+                      dataType="numeric"
+                      name="HS_MENSUALES_DESIGNADAS"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[RUBRO_VENTA]"
+                      dataType="i4"
+                      name="RUBRO_VENTA" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[RUBRO_COMPRA]"
+                      dataType="i4"
+                      name="RUBRO_COMPRA" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[TIPO_TRANSACCION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="TIPO_TRANSACCION" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[FACTOR]"
+                      dataType="numeric"
+                      name="FACTOR"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[FACTOR_DISTRIBUCION]"
+                      dataType="numeric"
+                      name="FACTOR_DISTRIBUCION"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[VALOR_CANTIDAD_HS]"
+                      dataType="numeric"
+                      name="VALOR_CANTIDAD_HS"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[HORAS_TRANSACCION]"
+                      dataType="numeric"
+                      name="HORAS_TRANSACCION"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[VALOR_TRANSACCION]"
+                      dataType="numeric"
+                      name="VALOR_TRANSACCION"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[CICLO_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="CICLO_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[CLASE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="CLASE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[CANTIDAD_HS]"
+                      dataType="numeric"
+                      name="CANTIDAD_HS"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[COD_NEGOCIO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="COD_NEGOCIO" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[COD_CLASE_DEPTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="COD_CLASE_DEPTO" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[Total_Alumos]"
+                      dataType="numeric"
+                      name="Total_Alumos"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[cantInscripto]"
+                      dataType="numeric"
+                      name="cantInscripto"
+                      precision="18" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[CARRERA_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="CARRERA_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[CANT_MESES]"
+                      dataType="i4"
+                      name="CANT_MESES" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[fuente]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="fuente" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[aniomes]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="aniomes" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[SAICO_ID]"
+                      dataType="i4"
+                      name="SAICO_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[UNIDAD_ORIGEN_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="UNIDAD_ORIGEN_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[UNIDAD_DESTINO_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="UNIDAD_DESTINO_ID" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Cargar datos\Destino de OLE DB.Outputs[Salida de error de destino de OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Salida de error de destino de OLE DB"
+                  synchronousInputId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Outputs[Salida de error de destino de OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Cargar datos\Destino de OLE DB.Outputs[Salida de error de destino de OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Cargar datos\Destino de OLE DB.Outputs[Salida de error de destino de OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Cargar datos\Destino de OLE DB.Outputs[Salida de error de destino de OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Cargar datos.Paths[Salida de columna derivada]"
+              endId="Package\Cargar datos\Conversión de datos.Inputs[Entrada de conversión de datos]"
+              name="Salida de columna derivada"
+              startId="Package\Cargar datos\Columna derivada.Outputs[Salida de columna derivada]" />
+            <path
+              refId="Package\Cargar datos.Paths[Salida de conversión de datos]"
+              endId="Package\Cargar datos\Destino de OLE DB.Inputs[Entrada de destino de OLE DB]"
+              name="Salida de conversión de datos"
+              startId="Package\Cargar datos\Conversión de datos.Outputs[Salida de conversión de datos]" />
+            <path
+              refId="Package\Cargar datos.Paths[Salida de origen de Excel]"
+              endId="Package\Cargar datos\Columna derivada.Inputs[Entrada de columna derivada]"
+              name="Salida de origen de Excel"
+              startId="Package\Cargar datos\Datos Transferencias de servicio.Outputs[Salida de origen de Excel]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción]"
+      DTS:CreationName=""
+      DTS:DTSID="{AF0578D5-A428-4E64-97D6-1950C2135803}"
+      DTS:From="Package\Borrar datos de Transferencias de servicios"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción"
+      DTS:To="Package\Cargar datos" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="281.6,41.6"
+          Id="Package\Borrar datos de Transferencias de servicios"
+          TopLeft="55.7692328148341,49.242426021259" />
+        <NodeLayout
+          Size="138.4,41.6"
+          Id="Package\Cargar datos"
+          TopLeft="264.615394321419,141.030308124886" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción]"
+          TopLeft="196.569232814834,90.842426021259">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="137.246161506585,50.1878821036267"
+              Start="0,0"
+              End="137.246161506585,42.6878821036267">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.0939410518134" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.0939410518134"
+                    Point2="0,25.0939410518134"
+                    Point3="4,25.0939410518134" />
+                  <mssgle:LineSegment
+                    End="133.246161506585,25.0939410518134" />
+                  <mssgle:CubicBezierSegment
+                    Point1="133.246161506585,25.0939410518134"
+                    Point2="137.246161506585,25.0939410518134"
+                    Point3="137.246161506585,29.0939410518134" />
+                  <mssgle:LineSegment
+                    End="137.246161506585,42.6878821036267" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Cargar datos">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="168,41.6"
+          Id="Package\Cargar datos\Destino de OLE DB"
+          TopLeft="496.923095150108,37.8181831843269" />
+        <NodeLayout
+          Size="174.4,41.6"
+          Id="Package\Cargar datos\Conversión de datos"
+          TopLeft="555.769251154725,184.363643023594" />
+        <NodeLayout
+          Size="163.2,41.6"
+          Id="Package\Cargar datos\Columna derivada"
+          TopLeft="265.384625118865,180.424248941893" />
+        <NodeLayout
+          Size="230.4,41.6"
+          Id="Package\Cargar datos\Datos Transferencias de servicio"
+          TopLeft="105.000003851377,44.1212137150481" />
+        <EdgeLayout
+          Id="Package\Cargar datos.Paths[Salida de origen de Excel]"
+          TopLeft="220.200003851377,85.7212137150481">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="100.917954600821,94.7030352268449"
+              Start="0,0"
+              End="100.917954600821,87.2030352268449">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.270152969737" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,52.270152969737"
+                    Point2="0,56.270152969737"
+                    Point3="4,56.270152969737" />
+                  <mssgle:LineSegment
+                    End="96.9179546008215,56.270152969737" />
+                  <mssgle:CubicBezierSegment
+                    Point1="96.9179546008215,56.270152969737"
+                    Point2="100.917954600821,56.270152969737"
+                    Point3="100.917954600821,60.270152969737" />
+                  <mssgle:LineSegment
+                    End="100.917954600821,87.2030352268449" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Cargar datos.Paths[Salida de conversión de datos]"
+          TopLeft="642.969251154726,184.363643023594">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-62.0461560046178,-104.945459839267"
+              Start="0,0"
+              End="-62.0461560046178,-97.4454598392668">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-48.4727299196334" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-48.4727299196334"
+                    Point2="0,-52.4727299196334"
+                    Point3="-4,-52.4727299196334" />
+                  <mssgle:LineSegment
+                    End="-58.0461560046178,-52.4727299196334" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-58.0461560046178,-52.4727299196334"
+                    Point2="-62.0461560046178,-52.4727299196334"
+                    Point3="-62.0461560046178,-56.4727299196334" />
+                  <mssgle:LineSegment
+                    End="-62.0461560046178,-97.4454598392668" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Cargar datos.Paths[Salida de columna derivada]"
+          TopLeft="428.584625118865,203.193945982743">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="127.18462603586,0"
+              Start="0,0"
+              End="119.68462603586,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="119.68462603586,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Cargar datos\Destino de OLE DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Cargar datos\Datos Transferencias de servicio">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
